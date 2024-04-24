@@ -64,6 +64,9 @@
     "url": "https://github.com/Morgan-Stanley/morphir-elm/issues"
   },
   "homepage": "https://github.com/Morgan-Stanley/morphir-elm#readme",
+  "workspaces":[
+    "build"
+  ],
   "devDependencies": {
     "@morphir/typespec-sdk": "file:redistributable/TypeSpec/sdk",
     "@stacksjs/cli": "^0.59.11",
