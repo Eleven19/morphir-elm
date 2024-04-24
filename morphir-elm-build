@@ -1,0 +1,9 @@
+#!/usr/bin/env bun
+import { resolve } from "path";
+const cliDir = resolve(__dirname, "build");
+
+// Start bluebun to run the correct CLI command
+require('bluebun').run({
+  name: 'morphir-elm-build',
+  cliPath: cliDir,
+});
