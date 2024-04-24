@@ -66,6 +66,7 @@
   "homepage": "https://github.com/Morgan-Stanley/morphir-elm#readme",
   "devDependencies": {
     "@morphir/typespec-sdk": "file:redistributable/TypeSpec/sdk",
+    "@stacksjs/cli": "^0.59.11",
     "@types/inquirer": "^9.0.3",
     "@types/jest": "^27.4.0",
     "@types/mocha": "^9.0.0",

@@ -17,6 +17,7 @@ const worker = require("./../Morphir.Elm.CLI").Elm.Morphir.Elm.CLI.init();
 interface MorphirJson {
   name: string;
   sourceDirectory: string;
+  dependencies?: string[];
   localDependencies?: string[];
   exposedModules: string[];
 }
