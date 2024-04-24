@@ -1,7 +1,11 @@
 {
   "name": "morphir-elm-build",
+  "private": true,
   "module": "index.ts",
   "type": "module",
+  "bin": {
+    "buildme": "index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
