@@ -1,5 +1,5 @@
 import { magenta, print, type Props } from 'bluebun';
-import { getCommandHelp } from '../utils/getCommandHelp';
+import { getCommandHelp } from '../../utils/getCommandHelp';
 
 interface RestoreProps extends Props {
     noElm?: boolean;
@@ -11,8 +11,9 @@ interface RestoreProps extends Props {
 export default {
     name: 'restore',
     description: '🔄 Restore packages and models',
-    alias: ['update'],
+    alias: ['fetch'],
     run: async (props: RestoreProps) => {
+        await getCommandHelp(props);
         const { modelsHome = Bun.env.MORPHIR_MODELS_HOME, customElmRestore = Bun.env.MORPHIR_CUSTOM_ELM_RESTORE } = props.options;
         console.log(magenta('Restoring packages and models...'));
         console.log('Models Home:', modelsHome);
@@ -20,6 +21,5 @@ export default {
         console.log('No Elm:', props.options.noElm);
         console.log('No Models:', props.options.noModels);
 
-        await getCommandHelp(props);
     },
 };
