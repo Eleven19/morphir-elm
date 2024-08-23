@@ -31,8 +31,12 @@ object root extends RootModule with ElmModule {
     }
 
     object morphir extends Module {
-        object cli extends ScalaProject {
-            def mainClass = Some("org.finos.morphir.cli.Main")
+        object cli extends ScalaProject with NativeImage{
+            def mainClass = T { 
+                val className = nativeImageMainClass()
+                Option(className) 
+            }
+
             def ivyDeps = Agg(
                 ivy"com.lihaoyi::os-lib:${V.oslib}",
                 ivy"com.lihaoyi::pprint:${V.pprint}",
@@ -43,6 +47,18 @@ object root extends RootModule with ElmModule {
             )
 
             def moduleDeps = Seq(workspace)
+
+            // Native Image settings
+            def nativeImageName = "morphir-cli" //TODO: Rename to morphir
+            def nativeImageMainClass = T{ "org.finos.morphir.cli.Main"}
+            def nativeImageClassPath    = runClasspath()
+            def nativeImageGraalVmJvmId = "graalvm-java17:22.3.1"
+            def nativeImageOptions = Seq(
+                "--no-fallback",
+                "--enable-url-protocols=http,https",
+                "-Djdk.http.auth.tunneling.disabledSchemes=",
+            ) ++ (if (sys.props.get("os.name").contains("Linux")) Seq("--static") else Seq.empty)
+
         }
 
         object lang extends Module {
