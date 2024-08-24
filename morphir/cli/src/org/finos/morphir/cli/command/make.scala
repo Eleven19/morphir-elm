@@ -27,7 +27,9 @@ final case class MakeOptions(
 
 object Make extends Command[MakeOptions] {
   def run(options: MakeOptions, remainingArgs: RemainingArgs): Unit = {      
-    val elmCompilerJs = os.read( os.resource / "js"/"morphir-elm-compiler.js") //os.read(os.resource(cls) / "morphir-elm-compiler.js")
+    //val elmCompilerJs = os.read( os.resource / "js"/"morphir-elm-compiler.js") 
+    val elmCompilerJs = os.read( os.resource / "js"/"compiler.js") 
+     
     //pprint.pprintln(elmCompilerJs)
     val elmCompilerSource =
       Source
@@ -41,7 +43,7 @@ object Make extends Command[MakeOptions] {
         |console.log("CLI", cli);
         |export const worker = Elm.Morphir.Elm.CLI.init();
         |console.log(worker.ports);
-        |""".stripMargin
+        |""".stripMargingi
     val code = "export const foo = 42;"
     val source = 
       Source

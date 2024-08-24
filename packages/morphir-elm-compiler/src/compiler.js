@@ -1,4 +1,4 @@
-import {Elm} from "./src/Morphir/Elm/CLI.elm"
+import {Elm} from "./Morphir/Elm/CLI.elm"
 
 export const Morphir = Elm.Morphir;
 //Elm.Morphir.Elm.CLI.init();

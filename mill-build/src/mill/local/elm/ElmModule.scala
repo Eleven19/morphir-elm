@@ -86,7 +86,9 @@ trait ElmModule extends Module {
         elmMakeOutputFile()
     }
     
-    // def elmMake(docs:Option[os.Path]) = T.task {
-    //     T.log.info("Compiling Elm sources")
-    // }
+    def compile = T {
+        val outDir = T.ctx().dest
+        val elmJs = elmMake()
+        Seq(PathRef(outDir))
+    }
 }

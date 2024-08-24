@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build --ssr ./index.js"
+        "build": "vite build --ssr ./src/compiler.js"
     },
     "devDependencies": {
         "elm": "^0.19.1-6",

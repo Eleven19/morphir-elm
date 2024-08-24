@@ -52,8 +52,12 @@ object root extends RootModule with ElmModule {
             def jsResources = T.sources {
                 val destDir = T.ctx().dest                                 
                 val elmCompilerJs = packages.`morphir-elm-compiler`.elmMake().path 
-                os.copy(elmCompilerJs, destDir / "js" / "morphir-elm-compiler.js", createFolders = true)
-
+                //os.copy(elmCompilerJs, destDir / "js" / "morphir-elm-compiler.js", createFolders = true)
+                os.copy(elmCompilerJs, destDir / "js" , createFolders = true)
+                val compileOutputs = packages.`morphir-elm-compiler`.compile()
+                compileOutputs.foreach { output =>
+                    os.copy.over(output.path, destDir , createFolders = true)
+                }                
                 Seq(PathRef(destDir))
             }
 
@@ -94,6 +98,32 @@ object root extends RootModule with ElmModule {
         object `morphir-elm-compiler` extends ElmModule {
             def elmEntryPoints = T {
                 Some(Seq(elmJsonDir() / "src" / "Morphir" / "Elm" / "CLI.elm").map(PathRef(_)))
+            }
+
+            def viteSources = T.sources {
+                millSourcePath / "src"
+            }
+
+            def allViteSourceFiles = T {
+                Lib.findSourceFiles(elmSources(), Seq("js","mjs","ts","elm")).map(PathRef(_))
+            }
+            
+            def viteBuild() = T.task {
+                val outDir = T.ctx().dest
+                val _  = allViteSourceFiles()
+                os.proc("npm", "run", "build").call(cwd = millSourcePath)
+                os.copy.over(millSourcePath / "dist", outDir / "js", createFolders = true)
+                PathRef(outDir)
+            }
+
+            def compile = T {
+                val outDir = T.ctx().dest
+                //val makeOutput = elmMake()      
+                val viteOutput = viteBuild()()         
+                // os.copy.over(viteOutput.path , outDir / "js" , createFolders = true) 
+                // //os.copy.over(makeOutput.path, outDir / "js" , createFolders = true)
+
+                Seq(PathRef(viteOutput.path))
             }
         }
     }
