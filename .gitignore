@@ -10,16 +10,19 @@ morphir-test-coverage.json
 generated/
 out/
 redistributable/Scala
-cli/web/insightapp.js
-cli/treeStuff.js
-cli/index.html
-cli2/lib/
+packages/cli/web/insightapp.js
+packages/cli/treeStuff.js
+packages/cli/index.html
+packages/incremental-compiler/lib/
+packages/tests-integration/reference-model/Dockerfile
+packages/cadl-Frontend/cadl-output
 lib/geneated
-cadl-Frontend/cadl-output
 Morphir.Elm.CLI.js
 Morphir.Elm.Generator.js
 docs.json
 /.coverage/
-tests-integration/reference-model/Dockerfile
 
+# Scala Related
 .scala-build/
+.bsp/
+.bloop/

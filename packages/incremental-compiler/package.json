@@ -1,0 +1,9 @@
+{
+    "name": "@finos/morphir-elm-compiler",
+    "private": true,
+    "type": "module",
+    "version": "3.0.0-alpha1.0",
+    "dependencies": {},
+    "devDependencies": {},
+    "peerDependenciesMeta": {}
+}
