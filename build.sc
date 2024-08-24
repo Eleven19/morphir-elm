@@ -47,16 +47,31 @@ object root extends RootModule with ElmModule {
             )
 
             def moduleDeps = Seq(workspace)
+            
+            def jsResources = T.sources {
+                val destDir = T.ctx().dest                                 
+                val elmCompilerJs = packages.`morphir-elm-compiler`.elmMake().path 
+                os.copy(elmCompilerJs, destDir / "js" / "morphir-elm-compiler.js", createFolders = true)
+
+                Seq(PathRef(destDir))
+            }
+
+            def resources = T {                              
+                super.resources() ++ jsResources()
+            }
 
             // Native Image settings
             def nativeImageName = "morphir-cli" //TODO: Rename to morphir
             def nativeImageMainClass = T{ "org.finos.morphir.cli.Main"}
             def nativeImageClassPath    = runClasspath()
-            def nativeImageGraalVmJvmId = "graalvm-java17:22.3.1"
+            def nativeImageGraalVmJvmId = "graalvm-java22:22.0.2"
             def nativeImageOptions = Seq(
                 "--no-fallback",
-                "--enable-url-protocols=http,https",
+                "--enable-url-protocols=http,https",                
                 "-Djdk.http.auth.tunneling.disabledSchemes=",
+                "-H:+UnlockExperimentalVMOptions",
+                "-H:Log=registerResource:5",
+                "-H:+BuildReport",                
             ) ++ (if (sys.props.get("os.name").contains("Linux")) Seq("--static") else Seq.empty)
 
         }

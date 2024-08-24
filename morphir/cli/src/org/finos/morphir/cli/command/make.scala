@@ -27,5 +27,10 @@ object Make extends Command[MakeOptions] {
   def run(options: MakeOptions, remainingArgs: RemainingArgs): Unit = {
     pprint.pprintln("Running make...")
     pprint.pprintln(options)
+
+    pprint.pprintln("Resources...")
+    val cls = classOf[MakeOptions]
+    val elmCompilerJs = os.read( os.resource / "js"/"morphir-elm-compiler.js") //os.read(os.resource(cls) / "morphir-elm-compiler.js")
+    pprint.pprintln(elmCompilerJs)
   }
 }
