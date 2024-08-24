@@ -74,6 +74,14 @@ object root extends RootModule with ElmModule {
         }
     }
 
+    object packages extends Module {
+        object `morphir-elm-compiler` extends ElmModule {
+            def elmEntryPoints = T {
+                Some(Seq(elmJsonDir() / "src" / "Morphir" / "Elm" / "CLI.elm").map(PathRef(_)))
+            }
+        }
+    }
+
     object ci extends RootModule {
     
     }
