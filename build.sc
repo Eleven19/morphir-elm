@@ -43,7 +43,8 @@ object root extends RootModule with ElmModule {
                 ivy"com.github.alexarchambault::case-app:${V.`case-app`}",
                 ivy"io.getkyo::kyo-core:${V.kyo}",
                 ivy"io.getkyo::kyo-direct:${V.kyo}",
-                ivy"io.getkyo::kyo-sttp:${V.kyo}"
+                ivy"io.getkyo::kyo-sttp:${V.kyo}",
+                ivy"org.graalvm.polyglot:js:${V.`graal-polyglot`}",
             )
 
             def moduleDeps = Seq(workspace)
@@ -116,6 +117,7 @@ object V {
     val pprint = "0.9.0"
     val neotype = "0.3.0"
     val `scala-uri` = "4.0.3"
+    val `graal-polyglot` = "24.0.2"
     object Scala {        
         val scala3x = "3.3.3"
         val defaultScalaVersion = scala3x

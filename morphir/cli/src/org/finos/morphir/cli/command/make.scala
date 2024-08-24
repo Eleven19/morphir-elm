@@ -1,6 +1,8 @@
 package org.finos.morphir.cli.command
 import caseapp.*
 import org.finos.morphir.cli.given 
+import org.graalvm.polyglot.*
+import scala.util.Using
 
 final case class MakeOptions(
     @Name("p")
@@ -24,13 +26,46 @@ final case class MakeOptions(
 )
 
 object Make extends Command[MakeOptions] {
-  def run(options: MakeOptions, remainingArgs: RemainingArgs): Unit = {
-    pprint.pprintln("Running make...")
-    pprint.pprintln(options)
-
-    pprint.pprintln("Resources...")
-    val cls = classOf[MakeOptions]
+  def run(options: MakeOptions, remainingArgs: RemainingArgs): Unit = {      
     val elmCompilerJs = os.read( os.resource / "js"/"morphir-elm-compiler.js") //os.read(os.resource(cls) / "morphir-elm-compiler.js")
-    pprint.pprintln(elmCompilerJs)
+    //pprint.pprintln(elmCompilerJs)
+    val elmCompilerSource =
+      Source
+        .newBuilder("js", elmCompilerJs, "morphir-elm-compiler.js")
+        .mimeType("application/javascript")
+        .build()
+    val bootstrap =
+      """
+        |import * as Elm from "./morphir-elm-compiler.js";
+        |cli = Elm.Morphir.Elm.CLI;
+        |console.log("CLI", cli);
+        |export const worker = Elm.Morphir.Elm.CLI.init();
+        |console.log(worker.ports);
+        |""".stripMargin
+    val code = "export const foo = 42;"
+    val source = 
+      Source
+        .newBuilder("js", code, "bootstrap.mjs")
+        .mimeType("application/javascript_module")
+        .build()
+    pprint.log("Ready...")
+    val context = 
+      Context.newBuilder("js")      
+        .allowIO(true)
+        .option("js.esm-eval-returns-exports", "true")
+        .build()
+    Using(context) { ctx =>
+      pprint.log("Before eval")
+
+      val exports = ctx.eval(elmCompilerSource)
+      ctx.eval(source)
+      //ctx.eval("js", elmCompilerJs)     
+      //pprint.log(exports.getMember("worker"))
+      //val CLI = ctx.eval("js", "export const cli = this.Elm.Morphir.Elm.CLI);console.log(cli);")
+      pprint.log("After eval") 
+      
+      // val res0 = ctx.eval("js", "Elm.Morphir.Elm.CLI.init()");
+      // pprint.pprintln((1,res0))
+    }
   }
 }

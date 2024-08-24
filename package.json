@@ -6,12 +6,14 @@
   "main": "lib/dist/main.js",
   "workspaces":[
     "packages/cli",
-    "packages/legacy-cli"
+    "packages/legacy-cli",
+    "packages/morphir-elm-compiler"
   ],
   "#workspaces":[
     "packages/cadl-Frontend",
     "packages/cli",
     "packages/legacy-cli",
+    
     "packages/morphir-decoration-extension",
     "packages/server",
     "packages/tests-integration"
